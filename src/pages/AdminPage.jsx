@@ -1,32 +1,25 @@
 import {
-  BookOpen,
+  Camera,
   CalendarDays,
-  Check,
-  Edit3,
   Eye,
   GripVertical,
   Link2,
   MapPin,
-  Pizza,
-  Plus,
   Save,
   Store,
+  Upload,
 } from 'lucide-react'
 import { useState } from 'react'
 import { AdminPanel } from '../components/AdminPanel'
 import { Logo } from '../components/Logo'
-import { bioLinks, business, images, menuCategories } from '../data/siteData'
+import { bioLinks, business, images } from '../data/siteData'
 
 const editableContent = {
-  heroEyebrow: business.name,
-  heroTitle: business.tagline,
-  heroDescription: business.description,
   statusLabel: 'Aberto agora',
   highlightEyebrow: 'Destaque da semana',
   highlightTitle: 'Sexta é dia de rodízio',
   highlightDescription:
     'Um espaço flexível para divulgar rodízio, promoções, novidades ou avisos especiais da La Nave.',
-  highlightCta: 'Chamar no WhatsApp',
   videoSectionTitle: 'Vídeos que dão vontade de pedir',
   videoSectionDescription:
     'Um espaço para reels, campanhas com influencers e bastidores dos pratos que mais chamam atenção.',
@@ -40,14 +33,9 @@ export function AdminPage() {
     <main className="admin-page">
       <header className="admin-topbar">
         <Logo compact />
-        <nav>
-          <a className="active" href="/admin">Site</a>
-          <a href="/bio">Bio</a>
-          <a href="#cardapio-admin">Cardápio</a>
-          <a href="#contato-admin">Contato</a>
-        </nav>
-        <div>
+        <div className="admin-actions">
           <a href="/">Ver site</a>
+          <a href="/bio">Ver bio</a>
           <button>
             <Save size={16} />
             Publicar alterações
@@ -59,36 +47,41 @@ export function AdminPage() {
         <section className="admin-editor">
           <div className="admin-title">
             <h1>Painel La Nave</h1>
-            <p>Atualize exatamente os textos, links e destaques que aparecem no site e na bio.</p>
+            <p>Atualize apenas o que muda com frequência: fotos, vídeo, destaque, links e contato.</p>
           </div>
 
-          <AdminPanel icon={Edit3} title="Topo do site">
+          <AdminPanel icon={Upload} title="Fotos e vídeo">
             <div className="admin-form-grid">
               <label>
-                Nome acima do título
-                <input defaultValue={editableContent.heroEyebrow} />
+                Logo da empresa
+                <input defaultValue="/images/logolanave.jpg" />
               </label>
               <label>
-                Título principal
-                <input defaultValue={editableContent.heroTitle} />
-              </label>
-              <label className="full">
-                Texto de apoio
-                <textarea defaultValue={editableContent.heroDescription} rows={2} />
+                Foto principal do site
+                <input defaultValue="/images/pizza.jpg" />
               </label>
               <label>
-                Botão principal
-                <input defaultValue="Fazer pedido" />
+                Foto de destaque
+                <input defaultValue="/images/esfiha-kitkat.jpg" />
               </label>
               <label>
-                Link do botão
-                <input defaultValue={business.orderLink} />
+                Vídeo automático
+                <input defaultValue="/videos/pizza-cartola-lanave.mp4" />
+              </label>
+              <label className="mini-toggle admin-toggle-row">
+                Vídeo ativo
+                <input type="checkbox" defaultChecked />
+                <span />
+              </label>
+              <label>
+                Selo do vídeo
+                <input defaultValue={editableContent.videoBadge} />
               </label>
             </div>
-            <small>Esse conteúdo aparece no primeiro bloco da página inicial.</small>
+            <small>Essas mídias alimentam o topo do site, a bio e a seção de vídeo automático.</small>
           </AdminPanel>
 
-          <AdminPanel icon={Store} title="Status de funcionamento">
+          <AdminPanel icon={Store} title="Status e horário">
             <div className="admin-form-grid">
               <label className="toggle-line">
                 <input type="checkbox" defaultChecked />
@@ -96,21 +89,21 @@ export function AdminPage() {
                 {editableContent.statusLabel}
               </label>
               <label>
-                Horário de hoje
+                Horário exibido
                 <input defaultValue={business.hours} />
               </label>
             </div>
-            <small>Essa informação aparece no topo do site e da página da bio.</small>
+            <small>Esse status aparece no site e na página da bio.</small>
           </AdminPanel>
 
-          <AdminPanel icon={CalendarDays} title="Destaque do site e da bio">
+          <AdminPanel icon={CalendarDays} title="Destaque flexível">
             <div className="admin-form-grid">
               <label>
                 Etiqueta
                 <input defaultValue={editableContent.highlightEyebrow} />
               </label>
               <label>
-                Título do destaque
+                Título
                 <input defaultValue={editableContent.highlightTitle} />
               </label>
               <label className="full">
@@ -119,41 +112,14 @@ export function AdminPage() {
               </label>
               <label>
                 Texto do botão
-                <input defaultValue={editableContent.highlightCta} />
+                <input defaultValue="Chamar no WhatsApp" />
               </label>
               <label>
                 Link do botão
                 <input defaultValue={business.whatsapp} />
               </label>
             </div>
-            <small>Pode virar rodízio, promoção do dia, novidade, cupom ou aviso importante.</small>
-          </AdminPanel>
-
-          <AdminPanel icon={Pizza} title="Vídeo em destaque">
-            <div className="admin-form-grid">
-              <label>
-                Título da seção
-                <input defaultValue={editableContent.videoSectionTitle} />
-              </label>
-              <label>
-                Selo no vídeo
-                <input defaultValue={editableContent.videoBadge} />
-              </label>
-              <label className="full">
-                Texto da seção
-                <textarea defaultValue={editableContent.videoSectionDescription} rows={2} />
-              </label>
-              <label>
-                Arquivo ou URL do vídeo
-                <input defaultValue="/videos/pizza-cartola-lanave.mp4" />
-              </label>
-              <label className="mini-toggle admin-toggle-row">
-                Vídeo ativo
-                <input type="checkbox" defaultChecked />
-                <span />
-              </label>
-            </div>
-            <small>Esse bloco aparece na seção de vídeos automáticos do site.</small>
+            <small>Pode ser rodízio, promoção do dia, combo, aviso ou novidade.</small>
           </AdminPanel>
 
           <AdminPanel icon={Link2} title="Links da bio">
@@ -177,25 +143,10 @@ export function AdminPage() {
                 </div>
               ))}
             </div>
-            <button className="ghost-button">
-              <Plus size={16} />
-              Adicionar link
-            </button>
+            <small>Esses botões aparecem na página /bio.</small>
           </AdminPanel>
 
-          <AdminPanel icon={BookOpen} title="Cardápio em destaque" id="cardapio-admin">
-            <div className="admin-category-list">
-              {menuCategories.map((item) => (
-                <label key={item.label}>
-                  <item.icon size={18} />
-                  <input defaultValue={item.label} />
-                  <span><Check size={14} /> visível</span>
-                </label>
-              ))}
-            </div>
-          </AdminPanel>
-
-          <AdminPanel icon={MapPin} title="Dados de contato" id="contato-admin">
+          <AdminPanel icon={MapPin} title="Contato e localização">
             <div className="admin-form-grid">
               <label>
                 WhatsApp
@@ -210,10 +161,8 @@ export function AdminPage() {
                 <input defaultValue={business.address} />
               </label>
               <label className="full">
-                Link do Google Maps
-                <input
-                  defaultValue={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.mapQuery)}`}
-                />
+                Busca do Google Maps
+                <input defaultValue={business.mapQuery} />
               </label>
             </div>
           </AdminPanel>
@@ -221,15 +170,15 @@ export function AdminPage() {
 
         <aside className="admin-preview">
           <div className="preview-heading">
-            <span>Preview dos blocos editáveis</span>
+            <span>Preview do conteúdo</span>
             <strong>Site + Bio</strong>
           </div>
 
           <div className="mini-site">
             <img src={images.logo} alt="" />
-            <p>{editableContent.heroEyebrow}</p>
-            <h3>{editableContent.heroTitle}</h3>
-            <small>{editableContent.heroDescription}</small>
+            <p>{business.name}</p>
+            <h3>{business.tagline}</h3>
+            <small>{business.description}</small>
             <a>Fazer pedido</a>
             <div>
               <span>{business.hours}</span>
@@ -248,12 +197,17 @@ export function AdminPage() {
             <h3>{business.shortName}</h3>
             <p>Restaurante e Pizzaria em Igarassu</p>
             <span>{editableContent.highlightTitle}</span>
-            <a>Pedir no WhatsApp</a>
-            <button>Nossa localização</button>
+            <a>Fazer pedido</a>
+            <button>Localização</button>
           </div>
+
           <a className="preview-link" href="/bio">
             <Eye size={16} />
-            Abrir preview
+            Abrir bio
+          </a>
+          <a className="preview-link" href="/">
+            <Camera size={16} />
+            Abrir site
           </a>
         </aside>
       </div>
