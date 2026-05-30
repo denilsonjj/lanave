@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  CalendarDays,
   Check,
   Edit3,
   Eye,
@@ -15,6 +16,22 @@ import { useState } from 'react'
 import { AdminPanel } from '../components/AdminPanel'
 import { Logo } from '../components/Logo'
 import { bioLinks, business, images, menuCategories } from '../data/siteData'
+
+const editableContent = {
+  heroEyebrow: business.name,
+  heroTitle: business.tagline,
+  heroDescription: business.description,
+  statusLabel: 'Aberto agora',
+  highlightEyebrow: 'Destaque da semana',
+  highlightTitle: 'Sexta é dia de rodízio',
+  highlightDescription:
+    'Um espaço flexível para divulgar rodízio, promoções, novidades ou avisos especiais da La Nave.',
+  highlightCta: 'Chamar no WhatsApp',
+  videoSectionTitle: 'Vídeos que dão vontade de pedir',
+  videoSectionDescription:
+    'Um espaço para reels, campanhas com influencers e bastidores dos pratos que mais chamam atenção.',
+  videoBadge: 'Vídeo',
+}
 
 export function AdminPage() {
   const [links, setLinks] = useState(bioLinks)
@@ -42,15 +59,41 @@ export function AdminPage() {
         <section className="admin-editor">
           <div className="admin-title">
             <h1>Painel La Nave</h1>
-            <p>Atualize as informações do site e do link da bio em poucos minutos.</p>
+            <p>Atualize exatamente os textos, links e destaques que aparecem no site e na bio.</p>
           </div>
+
+          <AdminPanel icon={Edit3} title="Topo do site">
+            <div className="admin-form-grid">
+              <label>
+                Nome acima do título
+                <input defaultValue={editableContent.heroEyebrow} />
+              </label>
+              <label>
+                Título principal
+                <input defaultValue={editableContent.heroTitle} />
+              </label>
+              <label className="full">
+                Texto de apoio
+                <textarea defaultValue={editableContent.heroDescription} rows={2} />
+              </label>
+              <label>
+                Botão principal
+                <input defaultValue="Fazer pedido" />
+              </label>
+              <label>
+                Link do botão
+                <input defaultValue={business.orderLink} />
+              </label>
+            </div>
+            <small>Esse conteúdo aparece no primeiro bloco da página inicial.</small>
+          </AdminPanel>
 
           <AdminPanel icon={Store} title="Status de funcionamento">
             <div className="admin-form-grid">
               <label className="toggle-line">
                 <input type="checkbox" defaultChecked />
                 <span />
-                Aberto agora
+                {editableContent.statusLabel}
               </label>
               <label>
                 Horário de hoje
@@ -60,44 +103,57 @@ export function AdminPage() {
             <small>Essa informação aparece no topo do site e da página da bio.</small>
           </AdminPanel>
 
-          <AdminPanel icon={Edit3} title="Destaque do dia">
-            <div className="panel-head-action">
+          <AdminPanel icon={CalendarDays} title="Destaque do site e da bio">
+            <div className="admin-form-grid">
               <label>
-                Mensagem do destaque
-                <textarea defaultValue="Sexta tem rodízio na La Nave" rows={3} />
+                Etiqueta
+                <input defaultValue={editableContent.highlightEyebrow} />
               </label>
-              <label className="mini-toggle">
+              <label>
+                Título do destaque
+                <input defaultValue={editableContent.highlightTitle} />
+              </label>
+              <label className="full">
+                Descrição
+                <textarea defaultValue={editableContent.highlightDescription} rows={3} />
+              </label>
+              <label>
+                Texto do botão
+                <input defaultValue={editableContent.highlightCta} />
+              </label>
+              <label>
+                Link do botão
+                <input defaultValue={business.whatsapp} />
+              </label>
+            </div>
+            <small>Pode virar rodízio, promoção do dia, novidade, cupom ou aviso importante.</small>
+          </AdminPanel>
+
+          <AdminPanel icon={Pizza} title="Vídeo em destaque">
+            <div className="admin-form-grid">
+              <label>
+                Título da seção
+                <input defaultValue={editableContent.videoSectionTitle} />
+              </label>
+              <label>
+                Selo no vídeo
+                <input defaultValue={editableContent.videoBadge} />
+              </label>
+              <label className="full">
+                Texto da seção
+                <textarea defaultValue={editableContent.videoSectionDescription} rows={2} />
+              </label>
+              <label>
+                Arquivo ou URL do vídeo
+                <input defaultValue="/videos/pizza-cartola-lanave.mp4" />
+              </label>
+              <label className="mini-toggle admin-toggle-row">
+                Vídeo ativo
                 <input type="checkbox" defaultChecked />
                 <span />
               </label>
             </div>
-          </AdminPanel>
-
-          <AdminPanel icon={Pizza} title="Rodízio de sexta">
-            <div className="admin-split">
-              <div className="field-stack">
-                <label>
-                  Título do banner
-                  <input defaultValue="Sexta é dia de rodízio" />
-                </label>
-                <label>
-                  Descrição
-                  <textarea
-                    defaultValue="Reúna a família e os amigos para aproveitar uma noite especial na La Nave."
-                    rows={3}
-                  />
-                </label>
-                <label>
-                  Link de reserva
-                  <input defaultValue="https://wa.me/..." />
-                </label>
-              </div>
-              <div className="banner-preview">
-                <span>Preview do banner</span>
-                <strong>Sexta é dia de rodízio</strong>
-                <small>Toda sexta na La Nave.</small>
-              </div>
-            </div>
+            <small>Esse bloco aparece na seção de vídeos automáticos do site.</small>
           </AdminPanel>
 
           <AdminPanel icon={Link2} title="Links da bio">
@@ -164,15 +220,34 @@ export function AdminPage() {
         </section>
 
         <aside className="admin-preview">
-          <div className="preview-tabs">
-            <button>Site</button>
-            <button className="active">Bio</button>
+          <div className="preview-heading">
+            <span>Preview dos blocos editáveis</span>
+            <strong>Site + Bio</strong>
           </div>
+
+          <div className="mini-site">
+            <img src={images.logo} alt="" />
+            <p>{editableContent.heroEyebrow}</p>
+            <h3>{editableContent.heroTitle}</h3>
+            <small>{editableContent.heroDescription}</small>
+            <a>Fazer pedido</a>
+            <div>
+              <span>{business.hours}</span>
+              <span>Delivery rápido</span>
+            </div>
+          </div>
+
+          <div className="mini-highlight">
+            <span>{editableContent.highlightEyebrow}</span>
+            <strong>{editableContent.highlightTitle}</strong>
+            <small>{editableContent.highlightDescription}</small>
+          </div>
+
           <div className="mini-bio">
             <img src={images.logo} alt="" />
             <h3>{business.shortName}</h3>
             <p>Restaurante e Pizzaria em Igarassu</p>
-            <span>Sexta tem rodízio na La Nave.</span>
+            <span>{editableContent.highlightTitle}</span>
             <a>Pedir no WhatsApp</a>
             <button>Nossa localização</button>
           </div>
